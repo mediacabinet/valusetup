@@ -1,0 +1,23 @@
+{
+    "name": "valu/valusetup",
+    "description": "ValuSetup module",
+    "version": "0.1.0",
+    "type": "library",
+    "keywords": [
+        "valu", "setup"
+    ],
+    "homepage": "http://www.mediacabinet.fi/",
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "zendframework/zendframework": ">=2.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "ValuSetup\\": "src/",
+            "ValuSetupTest\\": "tests/"
+        }
+    }
+}

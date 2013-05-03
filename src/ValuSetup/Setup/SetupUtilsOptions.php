@@ -1,5 +1,5 @@
 <?php
-namespace ValuSetup\Setup\SetupUtils;
+namespace ValuSetup\Setup;
 
 use Zend\Stdlib\AbstractOptions;
 
@@ -7,38 +7,82 @@ class SetupUtilsOptions
     extends AbstractOptions
 {
     
+    /**
+     * Definition file name
+     * 
+     * @var string
+     */
     protected $definitionFile;
     
+    /**
+     * Module directories
+     * 
+     * @var array
+     */
     protected $moduleDirs = array();
     
+    /**
+     * Module repositories
+     * 
+     * @var array
+     */
     protected $repositories = array();
     
+    /**
+     * Should PHAR files be extracted?
+     * 
+     * @var boolean
+     */
     protected $extractPhars = false;
     
-    public function setExtractPhars($enable){
-        $this->extractPhars = (boolean) $enable;
+    /**
+     * Enable/disable PHAR extraction
+     * 
+     * @param boolean $extract
+     */
+    public function setExtractPhars($extract = true){
+        $this->extractPhars = (boolean) $extract;
     }
     
+    /**
+     * Should PHAR files be extracted?
+     * 
+     * @return boolean
+     */
     public function getExtractPhars(){
         return $this->extractPhars;
     }
     
+    /**
+     * Set definition file name
+     * 
+     * @param string $file
+     */
     public function setDefinitionFile($file){
         $this->definitionFile = $file;
     }
     
+    /**
+     * Get definition file name
+     * 
+     * @return string
+     */
     public function getDefinitionFile(){
         return $this->definitionFile;
     }
     
 	/**
-	 * @return the $repositories
+	 * Get repositories
+	 * 
+	 * @return array
 	 */
 	public function getRepositories() {
 		return $this->repositories;
 	}
 
 	/**
+	 * Set repositories
+	 * 
 	 * @param array $repositories
 	 */
 	public function setRepositories($repositories) {
@@ -55,13 +99,17 @@ class SetupUtilsOptions
 	}
 
 	/**
-	 * @return the $moduleDirs
+	 * Get module directories
+	 * 
+	 * @return array
 	 */
 	public function getModuleDirs() {
 		return $this->moduleDirs;
 	}
 
 	/**
+	 * Set module directories
+	 * 
 	 * @param array $moduleDirs
 	 */
 	public function setModuleDirs($dirs) {

@@ -16,6 +16,11 @@ abstract class AbstractSetupService
     use Feature\ServiceBrokerTrait;
     
     /**
+     * Module name
+     */
+    protected $name;
+    
+    /**
      * Setup utils
      * 
      * @var \ValuSetup\Setup\SetupUtils
@@ -34,7 +39,15 @@ abstract class AbstractSetupService
      * 
      * @return string
      */
-    public abstract function getName();
+    public function getName()
+    {
+        if (!$this->name) {
+            $class = new \ReflectionClass(get_class($this));
+            $this->name = $this->utils()->whichModule($class->getFileName());
+        }
+        
+        return $this->name;
+    }
     
     /**
      * Retrieve version for module

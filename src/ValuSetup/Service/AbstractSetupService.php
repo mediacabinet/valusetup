@@ -9,11 +9,17 @@ use ValuSo\Broker\ServiceBroker;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
+/**
+ * Abstract setup service class
+ * 
+ * @author Juha Suni
+ */
 abstract class AbstractSetupService 
     implements ServiceLocatorAwareInterface,
                Feature\ServiceBrokerAwareInterface
 {
     use Feature\ServiceBrokerTrait;
+    use Feature\IdentityTrait;
     
     /**
      * Module name
@@ -63,6 +69,7 @@ abstract class AbstractSetupService
      * ready 
      * 
      * @param array $options Setup options
+     * @return boolean True on success
      */
     public function install($version = null, array $options = array())
     {
@@ -83,8 +90,12 @@ abstract class AbstractSetupService
      * Setup module
      * 
      * @param array $options
+     * @return boolean True on success
      */
-    public abstract function setup(array $options = array());
+    public function setup(array $options = array())
+    {
+        return true;
+    }
     
     /**
      * Upgrade module from previous version
@@ -100,6 +111,7 @@ abstract class AbstractSetupService
      * 
      * @param string $from Version information
      * @param array $options
+     * @return boolean True on success
      */
 	public function upgrade($from, array $options = array()){
 	    
@@ -110,6 +122,8 @@ abstract class AbstractSetupService
                 sprintf('Unable to upgrade %s to version %s', $this->getName().' '.$to, $from)
             );
 	    }
+	    
+	    return true;
 	}
     
 	/**
@@ -117,8 +131,23 @@ abstract class AbstractSetupService
 	 * 
 	 * This method should not uninstall dependent modules, nor
 	 * the module settings by default.
+	 * 
+	 * @return boolean True on success
 	 */
-    public abstract function uninstall(array $options = array());
+    public function uninstall(array $options = array())
+    {
+        return true;
+    }
+    
+    /**
+     * Load service instace by service ID
+     * 
+     * @return mixed
+     */
+    public function loadServiceById($serviceId)
+    {
+        return $this->getServiceBroker()->getLoader()->load($serviceId);
+    }
     
     /**
      * Set service locator

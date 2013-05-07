@@ -6,6 +6,7 @@ use ValuSetup\Setup\SetupUtils;
 use ValuSo\Feature;
 use ValuSo\Exception\MissingParameterException;
 use ValuSo\Broker\ServiceBroker;
+use ValuSo\Annotation as ValuService;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
@@ -13,13 +14,16 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  * Abstract setup service class
  * 
  * @author Juha Suni
+ * 
  */
 abstract class AbstractSetupService 
     implements ServiceLocatorAwareInterface,
-               Feature\ServiceBrokerAwareInterface
+               Feature\ServiceBrokerAwareInterface,
+               Feature\ConfigurableInterface
 {
     use Feature\ServiceBrokerTrait;
     use Feature\IdentityTrait;
+    use Feature\OptionsTrait;
     
     /**
      * Module name
@@ -44,6 +48,8 @@ abstract class AbstractSetupService
      * Retrieve module name for setup service
      * 
      * @return string
+     * 
+     * @ValuService\Context({"cli", "http", "http-get"})
      */
     public function getName()
     {
@@ -59,6 +65,8 @@ abstract class AbstractSetupService
      * Retrieve version for module
      * 
      * @return string
+     * 
+     * @ValuService\Context({"cli", "http", "http-get"})
      */
     public function getVersion(){
         return $this->utils()->getModuleVersion($this->getName());
@@ -70,6 +78,8 @@ abstract class AbstractSetupService
      * 
      * @param array $options Setup options
      * @return boolean True on success
+     * 
+     * @ValuService\Context({"cli", "http", "http-put"})
      */
     public function install($version = null, array $options = array())
     {
@@ -91,6 +101,8 @@ abstract class AbstractSetupService
      * 
      * @param array $options
      * @return boolean True on success
+     * 
+     * @ValuService\Context({"cli", "http", "http-post"})
      */
     public function setup(array $options = array())
     {
@@ -112,6 +124,8 @@ abstract class AbstractSetupService
      * @param string $from Version information
      * @param array $options
      * @return boolean True on success
+     * 
+     * @ValuService\Context({"cli", "http", "http-post"})
      */
 	public function upgrade($from, array $options = array()){
 	    
@@ -133,6 +147,8 @@ abstract class AbstractSetupService
 	 * the module settings by default.
 	 * 
 	 * @return boolean True on success
+	 * 
+	 * @ValuService\Context({"cli", "http", "http-delete"})
 	 */
     public function uninstall(array $options = array())
     {
@@ -140,19 +156,11 @@ abstract class AbstractSetupService
     }
     
     /**
-     * Load service instace by service ID
-     * 
-     * @return mixed
-     */
-    public function loadServiceById($serviceId)
-    {
-        return $this->getServiceBroker()->getLoader()->load($serviceId);
-    }
-    
-    /**
      * Set service locator
      *
      * @param ServiceLocatorInterface $serviceLocator
+     * 
+     * @ValuService\Exclude
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
@@ -163,10 +171,24 @@ abstract class AbstractSetupService
      * Get service locator
      *
      * @return ServiceLocatorInterface
+     * 
+     * @ValuService\Exclude
     */
     public function getServiceLocator()
     {
         return $this->serviceLocator;
+    }
+    
+    /**
+     * Load service instace by service ID
+     *
+     * @return mixed
+     *
+     * @ValuService\Exclude
+     */
+    protected function loadServiceById($serviceId)
+    {
+        return $this->getServiceBroker()->getLoader()->load($serviceId);
     }
     
     /**

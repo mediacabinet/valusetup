@@ -1,6 +1,7 @@
 <?php
 namespace ValuSetup\Setup;
 
+use ValuSo\Broker\ServiceBroker;
 use ValuSetup\Setup\Exception;
 use DirectoryIterator;
 use FilesystemIterator;
@@ -41,9 +42,9 @@ class SetupUtils{
      */
     protected $deps = array();
     
-    public function __construct(Broker $broker, $config = null)
+    public function __construct(ServiceBroker $serviceBroker, $config = null)
     {
-        $this->setServiceBroker($broker);
+        $this->setServiceBroker($serviceBroker);
         
         if($config !== null){
             $this->setConfig($config);
@@ -586,9 +587,9 @@ class SetupUtils{
      *
      * @param \ValuSo\Broker\ServiceBroker $broker
      */
-    public function setServiceBroker(Broker $broker)
+    public function setServiceBroker(ServiceBroker $serviceBroker)
     {
-    	$this->serviceBroker = $broker;
+    	$this->serviceBroker = $serviceBroker;
     }
     
     /**

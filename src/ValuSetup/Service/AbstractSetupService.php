@@ -1,6 +1,7 @@
 <?php
 namespace ValuSetup\Service;
 
+use ValuAcl\Service\Annotation as ValuServiceAcl;
 use ValuSetup\Setup\SoftwareVersion;
 use ValuSetup\Setup\SetupUtils;
 use ValuSo\Feature;
@@ -50,6 +51,7 @@ abstract class AbstractSetupService
      * @return string
      * 
      * @ValuService\Context({"cli", "http", "http-get"})
+     * @ValuServiceAcl\Superuser
      */
     public function getName()
     {
@@ -67,6 +69,7 @@ abstract class AbstractSetupService
      * @return string
      * 
      * @ValuService\Context({"cli", "http", "http-get"})
+     * @ValuServiceAcl\Superuser
      */
     public function getVersion(){
         return $this->utils()->getModuleVersion($this->getName());
@@ -80,6 +83,7 @@ abstract class AbstractSetupService
      * @return boolean True on success
      * 
      * @ValuService\Context({"cli", "http", "http-put"})
+     * @ValuServiceAcl\Superuser
      */
     public function install($version = null, array $options = array())
     {
@@ -103,6 +107,7 @@ abstract class AbstractSetupService
      * @return boolean True on success
      * 
      * @ValuService\Context({"cli", "http", "http-post"})
+     * @ValuServiceAcl\Superuser
      */
     public function setup(array $options = array())
     {
@@ -126,6 +131,7 @@ abstract class AbstractSetupService
      * @return boolean True on success
      * 
      * @ValuService\Context({"cli", "http", "http-post"})
+     * @ValuServiceAcl\Superuser
      */
 	public function upgrade($from, array $options = array()){
 	    
@@ -149,6 +155,7 @@ abstract class AbstractSetupService
 	 * @return boolean True on success
 	 * 
 	 * @ValuService\Context({"cli", "http", "http-delete"})
+	 * @ValuServiceAcl\Superuser
 	 */
     public function uninstall(array $options = array())
     {

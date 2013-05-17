@@ -163,6 +163,19 @@ abstract class AbstractSetupService
     }
     
     /**
+     * Clear all cache records for module
+     * 
+     * @return boolean True if cache records existed and were cleared
+     * 
+     * @ValuService\Context({"cli", "http", "http-delete"})
+	 * @ValuServiceAcl\Superuser
+     */
+    public function clearCache()
+    {
+        return false;
+    }
+    
+    /**
      * Set service locator
      *
      * @param ServiceLocatorInterface $serviceLocator

@@ -9,6 +9,8 @@ use ValuSetup\Setup\Exception;
  */
 class SoftwareVersion
 {
+    const DEV_PREFIX = 'dev-';
+    
     const DELIMITER = '.';
     
     /**
@@ -231,7 +233,22 @@ class SoftwareVersion
      */
     public static function isValid ($version)
     {
-        return (boolean) preg_match('/' . self::$validPattern . '/i', $version);
+        if (self::isDev($version)) {
+            return true;
+        } else {
+            return (boolean) preg_match('/' . self::$validPattern . '/i', $version);
+        }
+    }
+    
+    /**
+     * Is this a development version?
+     * 
+     * @param string $version
+     * @return boolean
+     */
+    public static function isDev($version)
+    {
+        return strpos($version, self::DEV_PREFIX) === 0;
     }
     
     /**

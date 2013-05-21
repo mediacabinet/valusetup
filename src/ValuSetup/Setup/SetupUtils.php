@@ -98,17 +98,18 @@ class SetupUtils{
             $setup = $this->initSetupService($depModule);
             $args  = array();
     
-            if (isset($current[$depModule])
+            /*if (isset($current[$depModule])
                 && $current[$depModule]->isLt($depVersion)) {
                 
+
                 $operation = 'upgrade';
                 $args = array(
                     'from' => $current[$depModule]
                 );
-            } else {
+            } else {*/
                 $operation = 'setup';
                 $args = array();
-            }
+            //}
     
             if ($depModule == $module) {
                 $args['options'] = $options;

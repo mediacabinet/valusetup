@@ -56,8 +56,7 @@ abstract class AbstractSetupService
     public function getName()
     {
         if (!$this->name) {
-            $class = new \ReflectionClass(get_class($this));
-            $this->name = $this->utils()->whichModule($class->getFileName());
+            $this->name = $this->utils()->whichModule($this);
         }
         
         return $this->name;

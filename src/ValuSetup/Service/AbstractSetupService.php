@@ -46,6 +46,16 @@ abstract class AbstractSetupService
     protected $serviceLocator;
     
     /**
+     * Retrieve setup priority
+     * 
+     * @return number
+     */
+    public function getPriority()
+    {
+        return 1;
+    }
+    
+    /**
      * Retrieve module name for setup service
      * 
      * @return string

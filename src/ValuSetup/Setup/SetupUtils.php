@@ -61,7 +61,6 @@ class SetupUtils{
         $module = strtolower($module);
         $options = is_null($options) ? array() : $options;
         
-        $fork    = false;
         $modules = $this->findModules();
         $current = array();
     
@@ -74,9 +73,6 @@ class SetupUtils{
             }
         }
         
-        // Download module and its dependencies
-        $fork = $this->download($module, $version);
-    
         // Resolve deps
         $deps = $this->resolveDependencies(
             $module
@@ -116,17 +112,57 @@ class SetupUtils{
             }
              
             // complete existing installation
-            if ($fork) {
-                $setup->fork(
-                    $operation,
-                    $args
-                );
-            } else {
-                $setup->exec(
-                    $operation,
-                    $args
-                );
+            $setup->exec(
+                $operation,
+                $args
+            );
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Update module (execute setup for each dependent module)
+     * 
+     * @param string $module
+     * @param array|null $options
+     * @return boolean
+     */
+    public function update($module, $options = null)
+    {
+        $module = strtolower($module);
+        $options = is_null($options) ? array() : $options;
+        $modules = $this->findModules();
+       
+        // Resolve deps
+        $deps = $this->resolveDependencies(
+            $module
+        );
+        
+        if (!$deps->offsetExists($module)) {
+            $deps->offsetSet($module, 'X');
+        }
+        
+        // Setup all dependencies
+        foreach($deps as $depModule => $depVersion){
+
+            if(!$this->hasSetupService($depModule)){
+                continue;
             }
+        
+            $setup = $this->initSetupService($depModule);
+            $operation = 'setup';
+            $args = array();
+        
+            if ($depModule == $module) {
+                $args['options'] = $options;
+            }
+             
+            // complete existing installation
+            $setup->exec(
+                'setup',
+                $args
+            );
         }
         
         return true;
@@ -166,45 +202,6 @@ class SetupUtils{
         if($this->moduleExists($module)){
             return $this->removeModuleFiles($module);
         }
-    }
-    
-    /**
-     * Download module and execute either installer or setup
-     *
-     * @param string $module
-     * @param string $version
-     * @return boolean        True if module or one of its dependencies was loaded
-     */
-    public function download($module, $version)
-    {
-    
-        $versionExists = false;
-    
-        /**
-         * Fetch previous version for module
-         */
-        $oldVersion = $this->getModuleVersion($module);
-         
-        /**
-         * Test if given or greater version is already installed
-        */
-        if($oldVersion){
-            $oldVersion = new SoftwareVersion($oldVersion);
-             
-            if($oldVersion->isGte($version)){
-                $versionExists = true;
-            }
-        }
-         
-        /**
-         * Load module files if necessary
-         */
-        if(!$versionExists){
-            throw new \Exception(
-                sprintf("Download not implemented; unable to load module '%s' version '%s'", $module, $version));
-        }
-    
-        return !$versionExists;
     }
     
     /**

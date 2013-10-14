@@ -75,8 +75,7 @@ abstract class AbstractSetupService
     }
     
     /**
-     * Install module dependencies and execute setup when
-     * ready 
+     * Install module and its dependencies
      * 
      * @param array $options Setup options
      * @return boolean True on success
@@ -96,7 +95,22 @@ abstract class AbstractSetupService
             }
         }
         
-        return $this->utils()->install($module, $version);
+        return $this->utils()->install($module, $version, $options);
+    }
+    
+    /**
+     * Update module and its dependencies
+     *
+     * @param array $options Setup options
+     * @return boolean True on success
+     *
+     * @ValuService\Context({"cli", "http", "http-post"})
+     * @ValuServiceAcl\Superuser
+     */
+    public function update(array $options = array())
+    {
+        $module = $this->utils()->whichModule($this);
+        return $this->utils()->update($module, $options);
     }
     
     /**

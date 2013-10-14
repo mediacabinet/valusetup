@@ -5,6 +5,7 @@ use ValuSo\Broker\ServiceBroker;
 use ValuSetup\Setup\Exception;
 use DirectoryIterator;
 use FilesystemIterator;
+use Zend\Stdlib\PriorityQueue;
 
 /**
  * Setup utilities
@@ -82,6 +83,8 @@ class SetupUtils{
             $deps->offsetSet($module, $version);
         }
         
+        $queue = new PriorityQueue();
+        
         // Setup all dependencies
         foreach($deps as $depModule => $depVersion){
     
@@ -92,21 +95,15 @@ class SetupUtils{
             }
     
             $setup = $this->initSetupService($depModule);
-            $args  = array();
-    
-            /*if (isset($current[$depModule])
-                && $current[$depModule]->isLt($depVersion)) {
-                
-
-                $operation = 'upgrade';
-                $args = array(
-                    'from' => $current[$depModule]
-                );
-            } else {*/
-                $operation = 'setup';
-                $args = array();
-            //}
-    
+            $queue->insert(['service' => $setup, 'module' => $depModule], $setup->getPriority());
+        }
+        
+        foreach ($queue->getIterator() as $datum) {
+            $service    = $datum['service'];
+            $depModule  = $datum['module'];
+            $operation  = 'setup';
+            $args       = array();
+        
             if ($depModule == $module) {
                 $args['options'] = $options;
             }

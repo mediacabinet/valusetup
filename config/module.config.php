@@ -9,14 +9,7 @@ return [
         'module_dirs' => [
             'valu' => 'vendor/valu',
         ],
-        'repositories' => [
-            'default' => [
-                'url' => 'http://zf2b.valu.fi/rest/module-repository/download',
-                'priority' => '1000',
-            ],
-        ],
-        'definition_file' => 'composer.json',
-        'extract_phars' => true,
+        'definition_file' => 'composer.json'
     ],
     'valu_so' => [
         'services' => [

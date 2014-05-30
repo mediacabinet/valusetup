@@ -22,38 +22,6 @@ class SetupUtilsOptions
     protected $moduleDirs = array();
     
     /**
-     * Module repositories
-     * 
-     * @var array
-     */
-    protected $repositories = array();
-    
-    /**
-     * Should PHAR files be extracted?
-     * 
-     * @var boolean
-     */
-    protected $extractPhars = false;
-    
-    /**
-     * Enable/disable PHAR extraction
-     * 
-     * @param boolean $extract
-     */
-    public function setExtractPhars($extract = true){
-        $this->extractPhars = (boolean) $extract;
-    }
-    
-    /**
-     * Should PHAR files be extracted?
-     * 
-     * @return boolean
-     */
-    public function getExtractPhars(){
-        return $this->extractPhars;
-    }
-    
-    /**
      * Set definition file name
      * 
      * @param string $file
@@ -70,33 +38,6 @@ class SetupUtilsOptions
     public function getDefinitionFile(){
         return $this->definitionFile;
     }
-    
-	/**
-	 * Get repositories
-	 * 
-	 * @return array
-	 */
-	public function getRepositories() {
-		return $this->repositories;
-	}
-
-	/**
-	 * Set repositories
-	 * 
-	 * @param array $repositories
-	 */
-	public function setRepositories($repositories) {
-	    
-	    if(!is_array($repositories) && !($repositories instanceof \Traversable)){
-	    	throw new \InvalidArgumentException('Invalid argument $repositories; array or instance of Traversable expected');
-	    }
-	    
-	    $this->repositories = array();
-	    
-	    foreach ($repositories as $name => $specs){
-	        $this->repositories[$name] = $specs;
-	    }
-	}
 
 	/**
 	 * Get module directories

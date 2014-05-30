@@ -466,17 +466,19 @@ class SetupUtils{
             }
     
             $config = $this->getModuleDefinition($module);
-    
-            if (isset($config['require-dev'])) {
-                foreach ($config['require-dev'] as $composerName => $composerVersion) {
-                    $moduleName = array_search($composerName, $map);
-    
-                    if ($moduleName !== false) {
-                        $deps[$moduleName] = ltrim($composerVersion, '<>=');
+            
+            foreach (['require', 'require-dev'] as $key) {
+                if (isset($config[$key])) {
+                    foreach ($config[$key] as $composerName => $composerVersion) {
+                        $moduleName = array_search($composerName, $map);
+        
+                        if ($moduleName !== false) {
+                            $deps[$moduleName] = ltrim($composerVersion, '<>=');
+                        }
                     }
                 }
             }
-
+    
             $this->deps[$module] = $deps;
         }
     

@@ -189,19 +189,6 @@ class SetupUtils{
     }
     
     /**
-     * Uninstall module
-     * 
-     * @param string $module	Module name
-     * @return boolean 			True when module was removed, false if
-     * 							nothing was removed
-     */
-    public function uninstall($module){
-        if($this->moduleExists($module)){
-            return $this->removeModuleFiles($module);
-        }
-    }
-    
-    /**
      * Resolve module dependencies, recursively
      * 
      * This method returns an array with dependent module names
@@ -483,68 +470,6 @@ class SetupUtils{
         }
     
         return $this->deps[$module];
-    }
-    
-    /**
-     * Remove module files
-     * 
-     * Removes both PHAR archives and directories with
-     * the module name within one of the module directories.
-     * 
-     * @param string $module
-     * @throws Exception\ModuleFolderNotWritableException
-     */
-    protected function removeModuleFiles($module){
-    	$path = $this->locateModule($module);
-
-    	/**
-    	 * Test if a directory exists and remove
-    	 * recursively
-    	 */
-    	if($path && is_dir($path)){
-    	    
-    	    if(!is_writable($path)){
-    	        throw new Exception\ModuleFolderNotWritableException(
-    	        	'Unable to remove module from path '.$path
-    	        );
-    	    }
-    	    
-    	    $iterator = new \RecursiveIteratorIterator(
-    	    	new \RecursiveDirectoryIterator($path),
-    	    	\RecursiveIteratorIterator::CHILD_FIRST
-    	    );
-    	    
-    	    foreach ($iterator as $path){
-    	    	if ($path->isDir()) {
-    	    		rmdir($path->__toString());
-    	    	}
-    	    	else{
-    	    		unlink($path->__toString());
-    	    	}
-    	    }
-    	    
-    	    rmdir($path);
-    	    
-    	    return true;
-    	}
-    	
-    	/**
-    	 * Test if a phar file exists and remove
-    	 */
-    	$file = $this->locateModule($module);
-    	if(file_exists($file)){
-    	    
-    	    if(!is_writable($file)){
-    	    	throw new Exception\ModuleFolderNotWritableException(
-    	    		'Unable to remove module from path '.$path
-    	    	);
-    	    }
-    	        	    
-    	    unlink($file);
-    	    return true;
-    	}
-    	
-    	return false;
     }
     
     /**

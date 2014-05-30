@@ -3,10 +3,8 @@ namespace ValuSetup\Service;
 
 use ValuAcl\Service\Annotation as ValuServiceAcl;
 use ValuSetup\Setup\SoftwareVersion;
-use ValuSetup\Setup\SetupUtils;
 use ValuSo\Feature;
 use ValuSo\Exception\MissingParameterException;
-use ValuSo\Broker\ServiceBroker;
 use ValuSo\Annotation as ValuService;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;

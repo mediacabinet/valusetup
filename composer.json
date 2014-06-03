@@ -1,6 +1,6 @@
 {
 	"name" : "valu/valusetup",
-	"description" : "ValuSetup module",
+	"description" : "Provides abstract Setup service implementation for Valu modules",
 	"version" : "0.9.0",
 	"type" : "library",
 	"keywords" : [
@@ -12,16 +12,20 @@
 		"BSD-3-Clause"
 	],
 	"require" : {
-		"php" : ">=5.4.0"
+		"php" : ">=5.4.0",
+		"zendframework/zendframework" : ">=2.0"
 	},
 	"require-dev" : {
-		"valu/valuso" : "dev-master",
-		"zendframework/zendframework" : ">=2.0"
+		"valu/valuso" : "dev-master"
 	},
 	"autoload" : {
 		"psr-0" : {
-			"ValuSetup\\" : "src/",
-			"ValuSetupTest\\" : "tests/"
+			"ValuSetup\\" : "src/"
 		}
-	}
+	},
+	"autoload-dev" : {
+        "psr-0" : {
+            "ValuSetupTest\\" : "tests/"
+        }
+    }
 }

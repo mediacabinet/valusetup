@@ -1,7 +1,6 @@
 {
 	"name" : "valu/valusetup",
 	"description" : "Provides abstract Setup service implementation for Valu modules",
-	"version" : "0.9.0",
 	"type" : "library",
 	"keywords" : [
 		"valu",
@@ -13,10 +12,8 @@
 	],
 	"require" : {
 		"php" : ">=5.4.0",
-		"zendframework/zendframework" : ">=2.0"
-	},
-	"require-dev" : {
-		"valu/valuso" : "dev-master"
+		"zendframework/zendframework" : ">=2.0",
+		"valu/valuso" : "1.*"
 	},
 	"autoload" : {
 		"psr-0" : {

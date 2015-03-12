@@ -106,7 +106,7 @@ class SetupUtils{
             }
              
             // complete existing installation
-            $setup->exec(
+            $service->exec(
                 $operation,
                 $args
             );

@@ -87,9 +87,6 @@ class SetupUtils{
         
         // Setup all dependencies
         foreach($deps as $depModule => $depVersion){
-    
-            $depVersion = new SoftwareVersion($depVersion);
-    
             if(!$this->hasSetupService($depModule)){
                 continue;
             }
@@ -393,7 +390,7 @@ class SetupUtils{
         if (isset($config['version'])) {
             return $config['version'];
         } else {
-            return null;
+            return SoftwareVersion::DEFAULT_UNRESOLVED_VERSION;
         }
     }
     

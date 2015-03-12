@@ -1,14 +1,14 @@
 <?php
 namespace ValuSetup\Setup;
 
-use ValuSetup\Setup\Exception;
-
 /**
  * SoftwareVersion class provides tools for comparing
  * and normalizing version numbers
  */
 class SoftwareVersion
 {
+    const DEFAULT_UNRESOLVED_VERSION = '0.1';
+    
     const DEV_PREFIX = 'dev-';
     
     const DELIMITER = '.';
@@ -56,9 +56,9 @@ class SoftwareVersion
     {
         $version = strtolower(strval($version));
         if (! self::isValid($version)) {
-            throw new Exception\InvalidVersionException(
-            'Version is not in valid format');
+            $version = self::DEFAULT_UNRESOLVED_VERSION;
         }
+        
         $this->numbers = self::parse($version);
         $this->version = $version;
         return $this;
